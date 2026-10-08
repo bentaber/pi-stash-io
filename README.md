@@ -4,7 +4,7 @@ _(pih-STASH-ee-oh)_
 `git stash` but for `pi` prompts. Stash the current prompt, do something else, stash pop it later.
 
 <p align="center">
-  <img src="assets/pistachio.png" alt="A grinning pistachio strutting on gangly legs in oversized shoes" width="280">
+  <img src="assets/pistachio-transparent.png" alt="A grinning pistachio strutting on gangly legs in oversized shoes" width="280">
 </p>
 
 ## Install

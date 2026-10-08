@@ -1,13 +1,25 @@
 # Pistachio mascot
 
-`pistachio.png` is the README mascot: a grinning pistachio with legs and oversized shoes.
+`pistachio-transparent.png` is the README mascot: a grinning pistachio with legs
+and oversized shoes, on a transparent background. `pistachio.png` retains the
+original white-background image.
 
 Generated with Pi's built-in image-model API (`models.generateImages`), using
 `google/gemini-3.1-flash-image` through OpenRouter. No reference images were used.
 The selected output was saved as a 768 × 768 PNG. The image is included with
 this MIT-licensed project.
 
-## Final prompt
+## Transparency edit
+
+The transparent version is a 768 × 768 RGBA PNG with a real alpha channel.
+A deterministic pixel edit removed edge-connected near-white background pixels
+and white contamination from the antialiased outline. The enclosed white eyes
+and shoe soles remain opaque. The character was preserved; no image model or
+generation CLI was used for this edit.
+
+Edit instruction: remove only the white background; keep the mascot unchanged.
+
+## Original generation prompt
 
 ```text
 Use case: illustration-story.
