@@ -109,6 +109,7 @@ test("real Pi shortcuts, picker, and session lifecycle", { timeout: 30_000 }, as
 			}
 		};
 		await mode.init();
+		assert.deepEqual(runtime.session.extensionRunner.getShortcutDiagnostics(), []);
 		await runtime.session.prompt("/qa-context");
 		const ctx = () => {
 			assert.ok(context);
@@ -124,30 +125,30 @@ test("real Pi shortcuts, picker, and session lifecycle", { timeout: 30_000 }, as
 
 		for (const tuiMode of ["fullscreen", "regular"] as const) {
 			(mode as unknown as { switchTuiMode(mode: string): boolean }).switchTuiMode(tuiMode);
-			await t.test(`${tuiMode}: Ctrl+S stashes, Ctrl+Shift+S pops one at a time`, async () => {
+			await t.test(`${tuiMode}: Alt+S stashes, Alt+Shift+S pops one at a time`, async () => {
 				ctx().ui.setEditorText("  Draft 界🙂\nsecond line  ");
-				terminal.send("\x13");
+				terminal.send("\x1bs"); // Alt+S via legacy escape prefix.
 				await rendered();
 				assert.equal(ctx().ui.getEditorText(), "");
 				ctx().ui.setEditorText("newer");
-				terminal.send("\x1b[115;5u"); // Ctrl+S via Kitty keyboard protocol.
+				terminal.send("\x1b[115;3u"); // Alt+S via Kitty keyboard protocol.
 				await rendered();
 				assert.deepEqual(texts(), ["newer", "  Draft 界🙂\nsecond line  "]);
-				terminal.send("\x1b[115;6u"); // Ctrl+Shift+S.
+				terminal.send("\x1b[115;4u"); // Alt+Shift+S.
 				await rendered();
 				assert.equal(ctx().ui.getEditorText(), "newer");
 				assert.deepEqual(texts(), ["  Draft 界🙂\nsecond line  "]);
-				terminal.send("\x1b[115;6u");
+				terminal.send("\x1b[115;4u");
 				await rendered();
 				assert.equal(ctx().ui.getEditorText(), "newer");
 				assert.equal(store.list().length, 1);
 				ctx().ui.setEditorText(" ");
-				terminal.send("\x1b[115;6u");
+				terminal.send("\x1b[115;4u");
 				await rendered();
 				assert.equal(ctx().ui.getEditorText(), " ");
 				assert.equal(store.list().length, 1);
 				ctx().ui.setEditorText("");
-				terminal.send("\x1b[115;6u");
+				terminal.send("\x1b[115;4u");
 				await rendered();
 				assert.equal(ctx().ui.getEditorText(), "  Draft 界🙂\nsecond line  ");
 				assert.deepEqual(texts(), []);
@@ -187,13 +188,13 @@ test("real Pi shortcuts, picker, and session lifecycle", { timeout: 30_000 }, as
 		await t.test("full stack and corrupt storage leave the current draft intact", async () => {
 			for (let index = 0; index < 10; index++) await runtime.session.prompt(`/stash push draft ${index}`);
 			ctx().ui.setEditorText("do not lose this");
-			terminal.send("\x13");
+			terminal.send("\x1bs");
 			await rendered();
 			assert.equal(ctx().ui.getEditorText(), "do not lose this");
 			assert.equal(store.list().length, 10);
 			store.clear(store.list().map((draft) => draft.id));
 			writeFileSync(store.file, "{invalid");
-			terminal.send("\x13");
+			terminal.send("\x1bs");
 			await rendered();
 			assert.equal(ctx().ui.getEditorText(), "do not lose this");
 			rmSync(store.file);

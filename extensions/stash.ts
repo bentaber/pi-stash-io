@@ -27,7 +27,7 @@ function stashEditor(ctx: ExtensionContext): void {
 	storeFor(ctx).push(text);
 	ctx.ui.setEditorText("");
 	updateStatus(ctx);
-	ctx.ui.notify("Draft stashed. Ctrl+Shift+S to pop.", "info");
+	ctx.ui.notify("Draft stashed. Alt+Shift+S to pop.", "info");
 }
 
 async function restore(ctx: ExtensionContext, signal: AbortSignal, id?: string): Promise<void> {
@@ -198,11 +198,11 @@ export default function stashIo(pi: ExtensionAPI): void {
 		updateStatus(ctx);
 	});
 
-	pi.registerShortcut("ctrl+s", {
+	pi.registerShortcut("alt+s", {
 		description: "Stash the current draft and clear the editor",
 		handler: (ctx) => enqueue(ctx, () => stashEditor(ctx)),
 	});
-	pi.registerShortcut("ctrl+shift+s", {
+	pi.registerShortcut("alt+shift+s", {
 		description: "Pop the newest stashed draft into an empty editor",
 		handler: (ctx) => enqueue(ctx, (signal) => restore(ctx, signal)),
 	});

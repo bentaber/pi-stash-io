@@ -122,10 +122,27 @@ test("clear confirmation retains drafts added by a second window", async (t) => 
 	);
 });
 
+test("Alt shortcuts stash and pop without registering Ctrl+S", async (t) => {
+	const f = fixture(t, "tui");
+	assert.deepEqual([...f.shortcuts.keys()], ["alt+s", "alt+shift+s"]);
+	const stash = f.shortcuts.get("alt+s");
+	const pop = f.shortcuts.get("alt+shift+s");
+	assert.ok(stash);
+	assert.ok(pop);
+	f.context.ui.setEditorText("draft");
+	await stash.handler(f.context);
+	assert.equal(f.text(), "");
+	assert.equal(f.store.list()[0].text, "draft");
+	assert.ok(f.notifications.includes("Draft stashed. Alt+Shift+S to pop."));
+	await pop.handler(f.context);
+	assert.equal(f.text(), "draft");
+	assert.deepEqual(f.store.list(), []);
+});
+
 test("queued shortcut operations use the current editor and do not duplicate drafts", async (t) => {
 	const f = fixture(t, "tui");
 	f.context.ui.setEditorText("draft");
-	const shortcut = f.shortcuts.get("ctrl+s");
+	const shortcut = f.shortcuts.get("alt+s");
 	assert.ok(shortcut);
 	await Promise.all([shortcut.handler(f.context), shortcut.handler(f.context)]);
 	assert.deepEqual(

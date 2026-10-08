@@ -1,7 +1,7 @@
 {
 	"name": "pi-stash-io",
 	"version": "0.1.0",
-	"description": "Stash prompt drafts with Ctrl+S and pop them with Ctrl+Shift+S in Pi.",
+	"description": "Stash prompt drafts with Alt+S and pop them with Alt+Shift+S in Pi.",
 	"type": "module",
 	"author": "Ben Taber",
 	"license": "MIT",

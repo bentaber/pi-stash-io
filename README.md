@@ -27,17 +27,18 @@ Run `/reload` after installing. Requires Pi 1.0.0 or later and Node.js 24 or lat
 
 | Shortcut | Action |
 | --- | --- |
-| **Ctrl+S** | Save the current draft and clear the editor |
-| **Ctrl+Shift+S** | Pop the newest draft into the editor |
+| **Alt+S** | Save the current draft and clear the editor |
+| **Alt+Shift+S** | Pop the newest draft into the editor |
 
 Stash A, then B. The first pop restores B; the next restores A.
 
 Pop refuses if the editor contains any text. Send, clear, or stash that text first.
 Drafts retain their whitespace and line breaks. Blank drafts are not stashed.
 
-Your terminal must distinguish Ctrl+Shift+S from Ctrl+S. If it cannot, use
-`/stash pop` to restore. The shortcuts apply in the prompt editor; Pi's own
-dialogs keep their shortcuts.
+Your terminal must report Alt+Shift+S distinctly from Alt+S, using enhanced
+keyboard reporting. If it cannot, use `/stash pop` to restore. On macOS,
+configure Option to send Alt/Meta rather than special characters.
+The shortcuts apply in the prompt editor; Pi's own dialogs keep their shortcuts.
 
 ## Commands
 
@@ -71,7 +72,7 @@ Numbers start at 1, newest first. In the picker, **Enter** restores,
   asks before restoring because it cannot inspect the client's editor.
 - Storage is separate from `@fitchmultz/pi-stash`; existing upstream stashes
   are not imported. Disable that extension before using this one, since its
-  stash shortcut and command conflict.
+  `/stash` command conflicts.
 
 ## Development
 
