@@ -5,6 +5,14 @@
 	"type": "module",
 	"author": "Ben Taber",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bentaber/pi-stash-io.git"
+	},
+	"homepage": "https://github.com/bentaber/pi-stash-io#readme",
+	"bugs": {
+		"url": "https://github.com/bentaber/pi-stash-io/issues"
+	},
 	"keywords": [
 		"pi-package",
 		"pi",
@@ -27,6 +35,7 @@
 		"access": "public"
 	},
 	"pi": {
+		"image": "https://raw.githubusercontent.com/bentaber/pi-stash-io/main/assets/pistachio-transparent.png",
 		"extensions": [
 			"./extensions/stash.ts"
 		]
